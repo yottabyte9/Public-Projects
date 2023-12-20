@@ -11,10 +11,10 @@
 
 using namespace std;
 
-vector<Coordinate> coords;
-int num_vertices;
+vector<Coordinate> #####;
+int #####;
 bool MST = false;
-bool fast = false;
+bool ##### = false;
 bool optimal = false;
 
 double fast_dist;
@@ -22,115 +22,115 @@ vector<int> fasttsp_tour;
 
 
 void fill(){
-    cin >> num_vertices;
-    coords.resize(num_vertices);
-    for(int i=0; i<num_vertices; i++){
-        int tempx;
-        int tempy;
+    cin >> #####;
+    #####.resize(#####);
+    for(int i=0; i<#####; i++){
+        int #####;
+        int #####;
         cin >> tempx;
         cin >> tempy;
-        coords[i].x = tempx;
-        coords[i].y = tempy;
-        char type;
+        #####[i].x = tempx;
+        #####[i].y = #####;
+        char #####;
         if(!fast){
-            if(tempx < 0 && tempy < 0){
+            if(##### < 0 && tempy < 0){
                 type = 'd';
             }
-            else if((tempx <= 0 && tempy == 0) || (tempx == 0 && tempy <= 0)){
+            else if((##### <= 0 && tempy == 0) || (##### == 0 && tempy <= 0)){
                 type = 'w';
             }
             else{
                 type = 's';
             }
-            coords[i].type = type;
+            #####[i].type = type;
         }
     }
 }
 
-double calculatedist(int index1, int index2){
-    if((coords[index1].type == 's' && coords[index2].type == 's') || (coords[index1].type == 'w' || coords[index2].type == 'w') || (coords[index1].type == 'd' && coords[index2].type == 'd')){
-        double temp1 = coords[index1].x;
-        double temp2 = coords[index1].y;
-        double temp3 = coords[index2].x;
-        double temp4 = coords[index2].y;
-        double x2 = (temp1-temp3) * (temp1-temp3);
-        double y2 = (temp2-temp4) * (temp2-temp4);
+double calculatedist(int #####, int #####){
+    if((#####[#####].type == 's' && #####[#####].type == 's') || (#####[#####].type == 'w' || #####[#####].type == 'w') || (#####[#####].type == 'd' && #####[#####].type == 'd')){
+        double ##### = #####[#####].x;
+        double ##### = #####[#####].y;
+        double ##### = #####[#####].x;
+        double ##### = #####[#####].y;
+        double x2 = (#####-#####) * (#####-#####);
+        double y2 = (#####-#####) * (#####-#####);
         double fin = x2 + y2;
         return sqrt(fin);
     }
     return numeric_limits<double>::infinity();
 }
 
-double calculatedistfast(int index1, int index2){
-    double temp1 = coords[index1].x;
-    double temp2 = coords[index1].y;
-    double temp3 = coords[index2].x;
-    double temp4 = coords[index2].y;
-    double x2 = (temp1-temp3) * (temp1-temp3);
-    double y2 = (temp2-temp4) * (temp2-temp4);
+double calculatedistfast(int #####, int #####){
+    double ##### = #####[#####].x;
+    double ##### = #####[#####].y;
+    double ##### = #####[#####].x;
+    double ##### = #####[#####].y;
+    double x2 = (#####-#####) * (#####-#####);
+    double y2 = (#####-#####) * (#####-#####);
     double fin = x2 + y2;
     return sqrt(fin);
 }
 
 void mst(){
-    coords[0].distance = 0;
+    #####[0].distance = 0;
     double running_total = 0;
-    int coords_size = (int)coords.size();
+    int #####_size = (int)#####.size();
 
-    // Initialize the vector of unvisited vertices
-    vector<int> unvisited;
-    for (int i = 0; i < coords_size; ++i) {
-        unvisited.push_back(i);
+    // Initialize the vector of ##### vertices
+    vector<int> #####;
+    for (int i = 0; i < #####_size; ++i) {
+        #####.push_back(i);
     }
 
-    while (!unvisited.empty()) {
-        int minDistIndex = -1;
+    while (!#####.empty()) {
+        int ##### = -1;
         double minDist = numeric_limits<double>::infinity();
 
-        // Find the unvisited vertex with the minimum distance
-        for (int idx : unvisited) {
-            if (coords[idx].distance < minDist) {
-                minDist = coords[idx].distance;
-                minDistIndex = idx;
+        // Find the ##### vertex with the minimum distance
+        for (int idx : #####) {
+            if (#####[idx].distance < minDist) {
+                minDist = #####[idx].distance;
+                ##### = idx;
             }
         }
 
-        if (minDistIndex != -1) {
-            coords[minDistIndex].visited = true;
-            running_total += coords[minDistIndex].distance;
+        if (##### != -1) {
+            #####[#####].visited = true;
+            running_total += #####[#####].distance;
 
-            // Remove the visited vertex from the unvisited list
-            unvisited.erase(remove(unvisited.begin(), unvisited.end(), minDistIndex), unvisited.end());
+            // Remove the visited vertex from the ##### list
+            #####.erase(remove(#####.begin(), #####.end(), #####), #####.end());
 
-            // Update distances to the unvisited vertices
-            for (int idx : unvisited) {
-                double dist = calculatedist(minDistIndex, idx);
-                if (dist < coords[idx].distance && dist != -1) {
-                    coords[idx].distance = dist;
-                    coords[idx].prevcoord = minDistIndex;
+            // Update distances to the ##### vertices
+            for (int idx : #####) {
+                double dist = calculatedist(#####, idx);
+                if (dist < #####[idx].distance && dist != -1) {
+                    #####[idx].distance = dist;
+                    #####[idx].prevcoord = #####;
                 }
             }
         } else {
-            // Break the loop if no unvisited vertex is found
+            // Break the loop if no ##### vertex is found
             break;
         }
     }
 
     cout << running_total << "\n";
-    for (int i = 0; i < coords_size; i++) {
-        if (coords[i].prevcoord != -1) {
-            if(i < coords[i].prevcoord) cout << i << " " << coords[i].prevcoord << endl;
-            else cout << coords[i].prevcoord << " " << i << endl;
+    for (int i = 0; i < #####_size; i++) {
+        if (#####[i].prevcoord != -1) {
+            if(i < #####[i].prevcoord) cout << i << " " << #####[i].prevcoord << endl;
+            else cout << #####[i].prevcoord << " " << i << endl;
         }
     }
 }
 
 void fasttsp() {
-    vector<int> tour = {0, 1};
-    tour.reserve(coords.size());
+    vector<int> ##### = {0, 1};
+    #####.reserve(#####.size());
     double total_distance = 2 * calculatedistfast(0, 1);
-    int coords_size = (int)coords.size();
-    for (int city = 2; city < coords_size; ++city) {
+    int #####_size = (int)#####.size();
+    for (int city = 2; city < #####_size; ++city) {
         double min_increase = numeric_limits<double>::max();
         int position = -1;
         int temp = (int)tour.size();
@@ -139,7 +139,7 @@ void fasttsp() {
             if (other == temp) {
                 other = 0;
             }
-            double increase = calculatedistfast(tour[i], city) + calculatedistfast(city, tour[other]) - calculatedistfast(tour[i], tour[other]);
+            double increase = calculatedistfast(tour[i], city) + calculatedistfast(city, #####[other]) - calculatedistfast(tour[i], #####[other]);
             if (increase < min_increase) {
                 min_increase = increase;
                 position = i;
@@ -147,7 +147,7 @@ void fasttsp() {
         }
 
         if (position != -1) {
-            tour.insert(tour.begin() + position + 1, city);
+            #####.insert(tour.begin() + position + 1, city);
             total_distance += min_increase;
         }
     }
@@ -155,13 +155,13 @@ void fasttsp() {
         cout << total_distance << "\n";
 
         for(int i=0; i< (int)tour.size(); i++){
-            cout << tour[i] << " ";
+            cout << #####[i] << " ";
         }
         cout << "\n";
     }
     if(optimal){
         fast_dist = total_distance;
-        fasttsp_tour = tour;
+        fasttsp_tour = #####;
     }
 }
 
@@ -169,51 +169,51 @@ double optmst(const vector<int>& subset) {
     if(size(subset) == 1){
         return 0;
     }
-    int coords_size = (int)coords.size();
+    int #####_size = (int)#####.size();
     
     // Resetting the visited and distance for all vertices
-    for (int i = 0; i < coords_size; ++i) {
-        coords[i].visited = false;
-        coords[i].distance = numeric_limits<double>::infinity();
+    for (int i = 0; i < #####_size; ++i) {
+        #####[i].visited = false;
+        #####[i].distance = numeric_limits<double>::infinity();
     }
 
     // Start from the first vertex in the subset
     if (!subset.empty()) {
-        coords[subset[0]].distance = 0;
+        #####[subset[0]].distance = 0;
     }
 
     double running_total = 0;
-    vector<int> unvisited(subset);  // Use only the vertices in the subset
+    vector<int> #####(subset);  // Use only the vertices in the subset
 
-    while (!unvisited.empty()) {
-        int minDistIndex = -1;
+    while (!#####.empty()) {
+        int ##### = -1;
         double minDist = numeric_limits<double>::infinity();
 
-        // Find the unvisited vertex with the minimum distance
-        for (int idx : unvisited) {
-            if (coords[idx].distance < minDist) {
-                minDist = coords[idx].distance;
-                minDistIndex = idx;
+        // Find the ##### vertex with the minimum distance
+        for (int idx : #####) {
+            if (#####[idx].distance < minDist) {
+                minDist = #####[idx].distance;
+                ##### = idx;
             }
         }
 
-        if (minDistIndex != -1) {
-            coords[minDistIndex].visited = true;
-            running_total += coords[minDistIndex].distance;
+        if (##### != -1) {
+            #####[#####].visited = true;
+            running_total += #####[#####].distance;
 
-            // Remove the visited vertex from the unvisited list
-            unvisited.erase(remove(unvisited.begin(), unvisited.end(), minDistIndex), unvisited.end());
+            // Remove the visited vertex from the ##### list
+            #####.erase(remove(#####.begin(), #####.end(), #####), #####.end());
 
-            // Update distances to the unvisited vertices in the subset
-            for (int idx : unvisited) {
-                double dist = calculatedistfast(minDistIndex, idx);
-                if (dist < coords[idx].distance && dist != -1) {
-                    coords[idx].distance = dist;
-                    coords[idx].prevcoord = minDistIndex;
+            // Update distances to the ##### vertices in the subset
+            for (int idx : #####) {
+                double dist = calculatedistfast(#####, idx);
+                if (dist < #####[idx].distance && dist != -1) {
+                    #####[idx].distance = dist;
+                    #####[idx].prevcoord = #####;
                 }
             }
         } else {
-            // Break the loop if no unvisited vertex is found
+            // Break the loop if no ##### vertex is found
             break;
         }
     }
@@ -221,83 +221,83 @@ double optmst(const vector<int>& subset) {
     return running_total;
 }
 
-bool promising(vector<int> path, int permLength){
-    double currCost = 0;
+bool promising(vector<int> #####, int permLength){
+    double ##### = 0;
     for (int i = 0; i < permLength-1; ++i) {
-        currCost += calculatedistfast(path[i], path[i + 1]);
+        ##### += calculatedistfast(#####[i], #####[i + 1]);
     }
-    vector<int> rest_of_vertices(path.begin() + permLength, path.end());
-    double mstCost = optmst(rest_of_vertices);
-    double currDist = currCost;
+    vector<int> rest_of_vertices(#####.begin() + permLength, #####.end());
+    double ##### = optmst(rest_of_vertices);
+    double ##### = #####;
     double arm1Len = numeric_limits<double>::infinity();
     double arm2Len = numeric_limits<double>::infinity();
-    for(int i=permLength; i<(int)path.size(); i++){
-        double temp = calculatedistfast(path[0], path[i]);
+    for(int i=permLength; i<(int)#####.size(); i++){
+        double temp = calculatedistfast(#####[0], #####[i]);
         if(temp < arm1Len){
             arm1Len = temp;
         }
     }
-    for(int i=permLength; i<(int)path.size(); i++){
-        double temp = calculatedistfast(path[permLength-1], path[i]);
+    for(int i=permLength; i<(int)#####.size(); i++){
+        double temp = calculatedistfast(#####[permLength-1], #####[i]);
         if(temp < arm2Len){
             arm2Len = temp;
         }
     }
-    currDist += mstCost + arm1Len + arm2Len;
-    bool promise = currDist < fast_dist;
-    /* for (size_t i = 0; i < path.size(); ++i){
-        cout << setw(2) << path[i] << ' ';
+    ##### += ##### + arm1Len + arm2Len;
+    bool promise = ##### < fast_dist;
+    /* for (size_t i = 0; i < #####.size(); ++i){
+        cout << setw(2) << #####[i] << ' ';
     }
-    cout << setw(4) << permLength << setw(10) << currCost;
+    cout << setw(4) << permLength << setw(10) << #####;
     cout << setw(10) << arm1Len << setw(10) << arm2Len; */
     if(promise){
-        //cout << setw(10) << mstCost << setw(10) << currDist << "  " << "true" << '\n';
-        if(mstCost==0){
-            //cout << "New best cost achieved: " << currDist << "\n";
-            fasttsp_tour = path;
-            fast_dist = currDist;
+        //cout << setw(10) << ##### << setw(10) << ##### << "  " << "true" << '\n';
+        if(#####==0){
+            //cout << "New best cost achieved: " << ##### << "\n";
+            fasttsp_tour = #####;
+            fast_dist = #####;
         }
     }
-    //else cout << setw(10) << mstCost << setw(10) << currDist << "  " << "false" << '\n';
+    //else cout << setw(10) << ##### << setw(10) << ##### << "  " << "false" << '\n';
     return promise;
 }
 
-void genPerms(vector<int> path, int permLength) { //permlength = how many indices are fixed
-    if (permLength == (int)path.size()) {
-        // Do something with the path
-        //currCost += (closing edge);
+void genPerms(vector<int> #####, int permLength) { //permlength = how many indices are fixed
+    if (permLength == (int)#####.size()) {
+        // Do something with the #####
+        //##### += (closing edge);
         //check if it's better
             //update things
-        //currCost -= (closing edge);
-        double currDist = 0;
+        //##### -= (closing edge);
+        double ##### = 0;
         for (int i = 0; i < permLength - 1; ++i) {
-            currDist += calculatedist(path[i], path[i + 1]);
+            ##### += calculatedist(#####[i], #####[i + 1]);
         }
-        currDist += calculatedist(path[permLength - 1], path[0]);  // Return to the starting city
-        if (currDist < fast_dist) {
-            fast_dist = currDist;
-            fasttsp_tour = path;
+        ##### += calculatedist(#####[permLength - 1], #####[0]);  // Return to the starting city
+        if (##### < fast_dist) {
+            fast_dist = #####;
+            fasttsp_tour = #####;
         }
         return;
-    }  // if ..complete path
+    }  // if ..complete #####
     
 
-    if (!promising(path, permLength)) {
+    if (!promising(#####, permLength)) {
         return;
     }  // if ..not promising
 
-    for (size_t i = permLength; i < path.size(); ++i) {
-        swap(path[permLength], path[i]);
-        //currCost += (cost of new edge);
-        genPerms(path, permLength + 1);
-        //currCost += (cost of that same edge);
-        swap(path[permLength], path[i]);
+    for (size_t i = permLength; i < #####.size(); ++i) {
+        swap(#####[permLength], #####[i]);
+        //##### += (cost of new edge);
+        genPerms(#####, permLength + 1);
+        //##### += (cost of that same edge);
+        swap(#####[permLength], #####[i]);
     }  // for ..unpermuted elements
 }  // genPerms()
 
 void opttsp(){
-    std::vector<int> indices(num_vertices);  // Create a vector of the required size
-    /* for(int i = 0; i < num_vertices; ++i) {
+    std::vector<int> indices(#####);  // Create a vector of the required size
+    /* for(int i = 0; i < #####; ++i) {
         indices[i] = i;  // Fill the vector with increasing indices
     } */
 
